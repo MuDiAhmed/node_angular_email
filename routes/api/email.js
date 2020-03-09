@@ -30,10 +30,9 @@ async function main() {
     text: "Hello world?", // plain text body
     html: "<b>Hello world?</b>" // html body
   });
-
   console.log("Message sent: %s", info.messageId);
-
   console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+  return info;
 }
 
 router.post("/", async (req, res) => {
@@ -48,8 +47,8 @@ router.post("/", async (req, res) => {
   //   }
 
   try {
-    main();
-    return res.sendStatus(200);
+    let messageInfo = await main();
+    return res.sendStatus(200).send({ messageId: messageInfo.messageId });
   } catch (err) {
     return res.status(500).send(err.message);
   }

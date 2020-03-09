@@ -1,0 +1,78 @@
+<mat-card class="card">
+  <mat-card-header>
+    <mat-card-title>Email Form</mat-card-title>
+    <mat-card-subtitle
+      >You can send any email with our email service</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-spinner *ngIf="loading"></mat-spinner>
+  <mat-error *ngIf="error && !loading">
+    {{ error }}
+  </mat-error>
+  <form
+    *ngIf="!loading"
+    class="example-form"
+    #formDirective="ngForm"
+    [formGroup]="emailFormControl"
+    (ngSubmit)="sendEmail(); formDirective.resetForm()"
+  >
+    <mat-card-content>
+      <mat-form-field class="full-width">
+        <mat-label>To</mat-label>
+        <input
+          matInput
+          formControlName="toEmail"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error *ngIf="toEmail.invalid && toEmail.errors.email">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="toEmail.invalid && toEmail.errors.required">
+          To email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>From</mat-label>
+        <input
+          matInput
+          formControlName="fromEmail"
+          placeholder="Ex. pat@example.com"
+        />
+        <mat-error *ngIf="fromEmail.invalid && fromEmail.errors.email">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="fromEmail.invalid && fromEmail.errors.required">
+          From email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Subject</mat-label>
+        <input
+          matInput
+          id="subject"
+          class="form-control"
+          formControlName="subject"
+        />
+        <mat-error *ngIf="subject.invalid && subject.errors.required">
+          Subject is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="full-width email-body">
+        <mat-label>Body</mat-label>
+        <textarea formControlName="body" matInput></textarea>
+        <mat-error *ngIf="body.invalid && body.errors.required">
+          Body is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        [disabled]="!emailFormControl.valid"
+        mat-flat-button
+        color="accent"
+      >
+        Send
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>
