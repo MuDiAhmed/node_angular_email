@@ -19,15 +19,32 @@
     <mat-card-content>
       <mat-form-field class="full-width">
         <mat-label>To</mat-label>
-        <input
-          matInput
-          formControlName="toEmail"
-          placeholder="Ex. pat@example.com"
-        />
-        <mat-error *ngIf="toEmail.invalid && toEmail.errors.email">
+        <mat-chip-list #toEmailList>
+          <mat-chip
+            *ngFor="let email of toEmails"
+            [selectable]="true"
+            [removable]="true"
+            (removed)="remove(email)"
+          >
+            {{ email }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input
+            [matChipInputFor]="toEmailList"
+            matInput
+            formArrayName="toEmail"
+            placeholder="Ex. pat@example.com"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
+        <mat-error *ngIf="toEmail.invalid && !toEmail.errors">
           Please enter a valid email address
         </mat-error>
-        <mat-error *ngIf="toEmail.invalid && toEmail.errors.required">
+        <mat-error
+          *ngIf="toEmail.invalid && toEmail.errors && toEmail.errors.required"
+        >
           To email is <strong>required</strong>
         </mat-error>
       </mat-form-field>
