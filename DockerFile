@@ -7,6 +7,7 @@ COPY package.json /app
 RUN npm install
 COPY . /app
 WORKDIR /app/frontend
+RUN npm install
 RUN ng build --prod
 WORKDIR /app
 CMD node index.js
