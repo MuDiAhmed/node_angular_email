@@ -1,0 +1,9 @@
+version: "3"
+services:
+  send_email:
+    build: .
+    ports:
+      - "4300:4300"
+    environment:
+      SMTP_API_KEY: $SMTP_API_KEY
+      SMTP_DOMAIN: $SMTP_DOMAIN
